@@ -1,0 +1,93 @@
+---
+title: "Assignment_4_Sunspot Data"
+author: "Parth Thaker"
+date: "2023-10-09"
+output: html_document
+---
+
+```{r}
+
+library(fpp)
+library(fpp2)
+library(TTR)
+library(readxl)
+
+df <- read_excel("Sunspots_Dataset.xlsx")
+
+#converting to time series data 
+T_Series = ts(df$`Monthly Mean Total Sunspot Number`,start=c(2000,1), end=c(2021,1),frequency = 12)
+
+attributes(T_Series)
+plot(T_Series)
+Acf(T_Series)
+
+#Average Method 
+
+mean_forecast <- meanf(T_Series,5)
+plot(mean_forecast)
+
+# Naive
+naive_forecast <- naive(T_Series,5)
+plot(naive_forecast)
+
+# Random Walk
+rwf_forecast <- rwf(T_Series,5)
+rwf_forecast <- rwf(T_Series,5, drift=TRUE)
+plot(rwf_forecast)
+
+# Seasonal Naive
+snaive_forecast <- snaive(T_Series,5)
+plot(snaive_forecast)
+
+# Moving Averages
+
+MA5_forecast <- ma(T_Series,order=5)
+MA9_forecast <- ma(T_Series,order=9)
+plot(MA5_forecast)
+plot(MA9_forecast)
+
+# plot all in a single chart
+plot(mean_forecast)
+lines(naive_forecast$mean,col="red")
+lines(rwf_forecast$mean,col="green")
+lines(snaive_forecast$mean,col="black")
+lines(MA5_forecast,col="Pink")
+lines(MA9_forecast,col="Blue")
+
+# Other Attributes 
+attributes(naive_forecast)
+
+# Decomposition Method 
+
+ets_forecast <- ets(T_Series)
+plot(ets_forecast)
+attributes(ets_forecast)
+ets_forecast$mse
+
+# Holt Winters
+
+HW<- HoltWinters(T_Series)
+plot(HW)
+HW_forecast<-forecast(HW, h=6)
+summary(HW_forecast)
+plot(HW_forecast)
+SSE_Simple <- HoltWinters(elecequip,beta=FALSE,gamma=FALSE)
+attributes(SSE_Simple)
+plot(SSE_Simple)
+SSE_Simple$SSE
+head(SSE_Simple$fitted)
+
+#Accuracy Measures 
+
+accuracy(mean_forecast)
+accuracy(naive_forecast)
+accuracy(rwf_forecast)
+accuracy(snaive_forecast)
+accuracy(ets_forecast) 
+accuracy(HW_forecast)
+
+
+
+
+```
+
