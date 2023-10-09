@@ -46,14 +46,6 @@ MA9_forecast <- ma(T_Series,order=9)
 plot(MA5_forecast)
 plot(MA9_forecast)
 
-# plot all in a single chart
-plot(mean_forecast)
-lines(naive_forecast$mean,col="red")
-lines(rwf_forecast$mean,col="green")
-lines(snaive_forecast$mean,col="black")
-lines(MA5_forecast,col="Pink")
-lines(MA9_forecast,col="Blue")
-
 # Other Attributes 
 attributes(naive_forecast)
 
@@ -76,6 +68,16 @@ attributes(SSE_Simple)
 plot(SSE_Simple)
 SSE_Simple$SSE
 head(SSE_Simple$fitted)
+
+# plot all in a single chart
+plot(mean_forecast)
+lines(naive_forecast$mean,col="red")
+lines(rwf_forecast$mean,col="green")
+lines(snaive_forecast$mean,col="plum")
+lines(HW_forecast$mean,col="blue")
+lines(ets_forecast$mean,col="orange")
+lines(MA5_forecast,col="pink")
+lines(MA9_forecast,col="purple")
 
 #Accuracy Measures 
 
