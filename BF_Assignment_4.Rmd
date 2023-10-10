@@ -14,8 +14,9 @@ library(readxl)
 
 df <- read_excel("Sunspots_Dataset.xlsx")
 
-#converting to time series data 
-T_Series = ts(df$`Monthly Mean Total Sunspot Number`,start=c(2000,1), end=c(2021,1),frequency = 12)
+#Converting to time series data 
+
+T_Series = ts(df$`Monthly Mean Total Sunspot Number`,start=c(2011,1), end=c(2021,1),frequency = 12)
 
 attributes(T_Series)
 plot(T_Series)
@@ -26,16 +27,19 @@ Acf(T_Series)
 mean_forecast <- meanf(T_Series,5)
 plot(mean_forecast)
 
-# Naive
+# Naive Method
+
 naive_forecast <- naive(T_Series,5)
 plot(naive_forecast)
 
-# Random Walk
+# Random Walk Method
+
 rwf_forecast <- rwf(T_Series,5)
 rwf_forecast <- rwf(T_Series,5, drift=TRUE)
 plot(rwf_forecast)
 
-# Seasonal Naive
+# Seasonal Naive Method
+
 snaive_forecast <- snaive(T_Series,5)
 plot(snaive_forecast)
 
@@ -69,8 +73,10 @@ plot(SSE_Simple)
 SSE_Simple$SSE
 head(SSE_Simple$fitted)
 
-# plot all in a single chart
-plot(mean_forecast)
+
+# Combining all charts in one 
+
+plot(HW_forecast)
 lines(naive_forecast$mean,col="red")
 lines(rwf_forecast$mean,col="green")
 lines(snaive_forecast$mean,col="plum")
